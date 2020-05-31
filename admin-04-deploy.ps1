@@ -1,7 +1,5 @@
 Param(
-  [parameter(Position=0, Mandatory=$true)][String]$envGitUser
-, [parameter(Position=1, Mandatory=$true)][String]$envGitEmail
-, [parameter(Position=2, Mandatory=$true)][String]$envHome
+  [parameter(Position=0, Mandatory=$true)][String]$envHome
 )
 
 function symLinkCreate ($Destination, $Source) {
@@ -41,8 +39,6 @@ New-Item -ItemType Directory "$envCache"
 New-Item -ItemType Directory "$envConfig"
 New-Item -ItemType Directory "$envRepos"
 
-# git config --global user.name $envGitUser
-# git config --global user.email $envGitEmail
 git config --global core.autoCRLF false
 
 git clone "https://github.com/chimre/dotfiles.git" "$envRepos\github.com\chimre\dotfiles"
