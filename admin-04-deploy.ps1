@@ -28,9 +28,9 @@ symLinkDelete "$envConfig\autohotkey"
 symLinkDelete "$envConfig\git"
 symLinkDelete "$envConfig\vim"
 
-Remove-Item -Recurse -Force "$envCache"
-Remove-Item -Recurse -Force "$envConfig"
-Remove-Item -Recurse -Force "$envRepos"
+# Remove-Item -Recurse -Force "$envCache"
+# Remove-Item -Recurse -Force "$envConfig"
+# Remove-Item -Recurse -Force "$envRepos"
 
 if ((Split-Path -NoQualifier $envHome) -ne "") {
   New-Item -ItemType Directory "$envHome"
