@@ -56,6 +56,9 @@ $graphvizVersion = $(choco list graphviz | rg Graphviz).Split(' ')[1].Split('.')
 [System.Environment]::SetEnvironmentVariable("GRAPHVIZ_DOT", "$programFiles86\Graphviz$graphvizVersion\bin\dot.exe", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
+choco upgrade winscp --install-if-not-installed --failonstderr -y
+refreshenv
+
 choco upgrade authy-desktop --install-if-not-installed --failonstderr -y
 refreshenv
 
