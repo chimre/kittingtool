@@ -7,6 +7,6 @@ $programFiles86 = [System.Environment]::GetEnvironmentVariable("ProgramFiles(x86
 choco upgrade microsoft-windows-terminal --install-if-not-installed --failonstderr -y
 refreshenv
 
-choco upgrade powershell-preview --install-if-not-installed --failonstderr -y
+choco upgrade powershell-core --install-if-not-installed --failonstderr -y
 refreshenv
 
