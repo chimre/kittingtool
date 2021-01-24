@@ -1,9 +1,6 @@
 $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).path)\..\.."
 Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 
-$programFiles = [System.Environment]::GetEnvironmentVariable("ProgramFiles", [System.EnvironmentVariableTarget]::Process)
-$programFiles86 = [System.Environment]::GetEnvironmentVariable("ProgramFiles(x86)", [System.EnvironmentVariableTarget]::Process)
-
 # make
 choco upgrade make --install-if-not-installed --failonstderr -y
 refreshenv
@@ -34,26 +31,30 @@ choco upgrade neovim --install-if-not-installed --failonstderr -y --pre
 refreshenv
 
 choco upgrade winmerge --install-if-not-installed --failonstderr -y
-[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$programFiles\WinMerge", [System.EnvironmentVariableTarget]::User)
+$installedPath = (Get-Command WinMergeU).Source | Split-Path -Parent
+[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
 # archiver
 choco upgrade peazip --install-if-not-installed --failonstderr -y
-[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$programFiles\PeaZip", [System.EnvironmentVariableTarget]::User)
+$installedPath = (Get-Command peazip).Source | Split-Path -Parent
+[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
 # application
 choco upgrade docker-toolbox --install-if-not-installed --failonstderr -y
-[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$programFiles\Docker Toolbox", [System.EnvironmentVariableTarget]::User)
+$installedPath = (Get-Command docker).Source | Split-Path -Parent
+[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
 choco upgrade virtualbox --install-if-not-installed --failonstderr -y
-[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$programFiles\Oracle\VirtualBox", [System.EnvironmentVariableTarget]::User)
+$installedPath = (Get-Command virtualbox).Source | Split-Path -Parent
+[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
 choco upgrade graphviz --install-if-not-installed --failonstderr -y
-$graphvizVersion = $(choco list graphviz | rg Graphviz).Split(' ')[1].Split('.')[0..1] -join '.'
-[System.Environment]::SetEnvironmentVariable("GRAPHVIZ_DOT", "$programFiles86\Graphviz$graphvizVersion\bin\dot.exe", [System.EnvironmentVariableTarget]::User)
+$installedPath = (Get-Command dot).Source
+[System.Environment]::SetEnvironmentVariable("GRAPHVIZ_DOT", "$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
 choco upgrade winscp --install-if-not-installed --failonstderr -y
