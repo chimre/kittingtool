@@ -5,6 +5,10 @@ Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 choco upgrade make --install-if-not-installed --failonstderr -y
 refreshenv
 
+# build
+choco upgrade VisualCppBuildTools --install-if-not-installed --failonstderr -y
+refreshenv
+
 # runtime
 choco upgrade adoptopenjdkjre --install-if-not-installed --failonstderr -y
 refreshenv
