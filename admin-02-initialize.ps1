@@ -1,12 +1,14 @@
+# Developer PowerShell for VS 2019で実行する
 $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).path)\..\.."
 Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 
-# make
+# build
 choco upgrade make --install-if-not-installed --failonstderr -y
 refreshenv
 
-# build
-choco upgrade VisualCppBuildTools --install-if-not-installed --failonstderr -y
+choco upgrade cmake --install-if-not-installed --failonstderr -y
+$installedPath = (Get-Command nvcc).Source | Split-Path -Parent
+[System.Environment]::SetEnvironmentVariable("CMAKE_CUDA_COMPILER", "$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
 # runtime
