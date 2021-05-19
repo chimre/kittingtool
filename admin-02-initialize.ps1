@@ -11,6 +11,13 @@ $installedPath = (Get-Command nvcc).Source | Split-Path -Parent
 [System.Environment]::SetEnvironmentVariable("CMAKE_CUDA_COMPILER", "$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
+choco upgrade protoc --install-if-not-installed --failonstderr -y
+refreshenv
+
+# library
+choco upgrade openssl --install-if-not-installed --failonstderr -y
+refreshenv
+
 # runtime
 choco upgrade adoptopenjdkjre --install-if-not-installed --failonstderr -y
 refreshenv

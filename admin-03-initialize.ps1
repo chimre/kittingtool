@@ -8,6 +8,8 @@ pip install --upgrade pelican
 pip install --upgrade git+https://github.com/twisted/twisted
 pip install --upgrade spotware-connect
 pip install --upgrade scikit-learn
+pip install --upgrade protobuf
+
 npm install -g yarn
 npm install -g neovim
 
