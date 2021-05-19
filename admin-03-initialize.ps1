@@ -1,3 +1,4 @@
+# Developer PowerShell for VS 2019で実行する
 python -m pip install --upgrade pip
 pip install --upgrade wheel
 pip install --upgrade pynvim

@@ -7,3 +7,23 @@ refreshenv
 choco upgrade powershell-core --install-if-not-installed --failonstderr -y
 refreshenv
 
+choco upgrade visualstudio2019buildtools --install-if-not-installed --failonstderr -y
+refreshenv
+
+$lnkPath = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Visual Studio 2019\Visual Studio Tools\Developer PowerShell for VS 2019.lnk"
+$WshShell = New-Object -ComObject WScript.Shell
+$lnk = $WshShell.CreateShortcut($lnkPath)
+$arguments = $lnk.Arguments.Split(" ")
+if ($arguments[-1].Contains("-DevCmdArguments -arch=x64") -eq $False)
+{
+  if ($arguments[-1].EndsWith('}"') -eq $True)
+  {
+    $arguments[-1] = $arguments[-1].Replace('}"', ' -DevCmdArguments -arch=x64}"')
+    $lnk.Arguments = [string]::Join(" ", $arguments)
+    $lnk.save()
+  }
+}
+refreshenv
+
+# 環境反映のため再起動する
+
