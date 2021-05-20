@@ -18,6 +18,11 @@ refreshenv
 choco upgrade openssl --install-if-not-installed --failonstderr -y
 refreshenv
 
+choco upgrade boost-msvc-14.2 --install-if-not-installed --failonstderr -y
+$installedPath = "C:\local\boost_" + (choco list boost -lo).Split(" ")[3].Replace(".", "_")
+[System.Environment]::SetEnvironmentVariable("BOOST_HOME", "$installedPath", [System.EnvironmentVariableTarget]::User)
+refreshenv
+
 # runtime
 choco upgrade adoptopenjdkjre --install-if-not-installed --failonstderr -y
 refreshenv
