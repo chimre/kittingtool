@@ -12,8 +12,6 @@ pip install --upgrade pelican
 pip install --upgrade fabric2
 pip install --upgrade seaborn
 pip install --upgrade pynvim
-pip install --upgrade git+https://github.com/twisted/twisted
-pip install --upgrade spotware-connect
 
 npm install -g yarn
 npm install -g neovim
