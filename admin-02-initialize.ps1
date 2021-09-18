@@ -61,12 +61,14 @@ refreshenv
 
 # application
 choco upgrade docker-toolbox --install-if-not-installed --failonstderr -y
-$installedPath = (Get-Command docker).Source | Split-Path -Parent
+$installedPath = (Get-ChildItem "$env:ProgramW6432" -Recurse -Include "docker.exe").FullName | Split-Path -Parent
+#$installedPath = (Get-Command docker).Source | Split-Path -Parent
 [System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
 choco upgrade virtualbox --install-if-not-installed --failonstderr -y
-$installedPath = (Get-Command virtualbox).Source | Split-Path -Parent
+$installedPath = (Get-ChildItem "$env:ProgramW6432" -Recurse -Include "virtualbox.exe").FullName | Split-Path -Parent
+#$installedPath = (Get-Command virtualbox).Source | Split-Path -Parent
 [System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
