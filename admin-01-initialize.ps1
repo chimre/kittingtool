@@ -10,22 +10,12 @@ refreshenv
 choco upgrade powershell-core --install-if-not-installed --failonstderr -y
 refreshenv
 
-choco upgrade visualstudio2019buildtools --install-if-not-installed --failonstderr -y
+choco upgrade visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional --passive" --install-if-not-installed --failonstderr -y
 refreshenv
 
-$lnkPath = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Visual Studio 2019\Visual Studio Tools\Developer PowerShell for VS 2019.lnk"
-$WshShell = New-Object -ComObject WScript.Shell
-$lnk = $WshShell.CreateShortcut($lnkPath)
-$arguments = $lnk.Arguments.Split(" ")
-if ($arguments[-1].Contains("-DevCmdArguments -arch=x64") -eq $False)
-{
-  if ($arguments[-1].EndsWith('}"') -eq $True)
-  {
-    $arguments[-1] = $arguments[-1].Replace('}"', ' -DevCmdArguments -arch=x64}"')
-    $lnk.Arguments = [string]::Join(" ", $arguments)
-    $lnk.save()
-  }
-}
+powershell.exe -Command {New-Item -ItemType Directory -Force (Split-Path $profile -Parent); $installedPath = (Get-Command Microsoft.VisualStudio.DevShell.dll).Source; Write-Output "Import-Module ""$installedPath""" | Out-File $profile; Write-Output "Enter-VsDevShell d2d1568b -DevCmdArguments -arch=x64" | Out-File $profile -Append}
+
+pwsh.exe -Command {New-Item -ItemType Directory -Force (Split-Path $profile -Parent); $installedPath = (Get-Command Microsoft.VisualStudio.DevShell.dll).Source; Write-Output "Import-Module ""$installedPath""" | Out-File $profile; Write-Output "Enter-VsDevShell d2d1568b -DevCmdArguments -arch=x64" | Out-File $profile -Append}
 
 # 手動でCUDAインストーラーを起動しCUDAをインストールする
 # 手動でcuDNN(zip)を展開し$installedPathにコピーする
