@@ -1,6 +1,10 @@
 $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).path)\..\.."
 Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+Invoke-WebRequest -useb get.scoop.sh | Invoke-Expression
+refreshenv
+
 choco upgrade chocolatey --install-if-not-installed --failonstderr -y
 refreshenv
 
@@ -13,9 +17,9 @@ refreshenv
 choco upgrade visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional --passive" --install-if-not-installed --failonstderr -y
 refreshenv
 
-powershell.exe -Command {New-Item -ItemType Directory -Force (Split-Path $profile -Parent); $installedPath = (Get-Command Microsoft.VisualStudio.DevShell.dll).Source; Write-Output "Import-Module ""$installedPath""" | Out-File $profile; Write-Output "Enter-VsDevShell d2d1568b -DevCmdArguments -arch=x64" | Out-File $profile -Append}
+powershell.exe -Command {New-Item -ItemType Directory -Force (Split-Path $profile -Parent); $installedPath = (Get-Command Microsoft.VisualStudio.DevShell.dll).Source; Write-Output "Import-Module ""$installedPath""" | Out-File $profile; Write-Output "Enter-VsDevShell d2d1568b -DevCmdArguments ""-arch=x64 -no_logo""" | Out-File $profile -Append}
 
-pwsh.exe -Command {New-Item -ItemType Directory -Force (Split-Path $profile -Parent); $installedPath = (Get-Command Microsoft.VisualStudio.DevShell.dll).Source; Write-Output "Import-Module ""$installedPath""" | Out-File $profile; Write-Output "Enter-VsDevShell d2d1568b -DevCmdArguments -arch=x64" | Out-File $profile -Append}
+pwsh.exe -Command {New-Item -ItemType Directory -Force (Split-Path $profile -Parent); $installedPath = (Get-Command Microsoft.VisualStudio.DevShell.dll).Source; Write-Output "Import-Module ""$installedPath""" | Out-File $profile; Write-Output "Enter-VsDevShell d2d1568b -DevCmdArguments ""-arch=x64 -no_logo""" | Out-File $profile -Append}
 
 # 手動でCUDAインストーラーを起動しCUDAをインストールする
 # 手動でcuDNN(zip)を展開し$installedPathにコピーする
