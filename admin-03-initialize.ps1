@@ -14,6 +14,5 @@ pip install --upgrade fabric2
 pip install --upgrade seaborn
 pip install --upgrade pynvim
 
-npm install -g yarn
-npm install -g neovim
-
+npm install --global yarn
+npm install --global neovim

@@ -38,6 +38,9 @@ refreshenv
 choco upgrade ripgrep --install-if-not-installed --failonstderr -y
 refreshenv
 
+choco upgrade fd --install-if-not-installed --failonstderr -y
+refreshenv
+
 choco upgrade fzf --install-if-not-installed --failonstderr -y
 refreshenv
 

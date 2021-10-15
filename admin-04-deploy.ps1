@@ -50,15 +50,13 @@ symLinkCreate "$envConfig\vim" "$envRepos\github.com\chimre\dotfiles\vim"
 
 git config --global include.path "$envConfig/git/10-common.conf"
 
-symLinkDelete "$env:LOCALAPPDATA\nvim\init.vim"
+symLinkDelete "$env:LOCALAPPDATA\nvim"
+symLinkCreate "$env:LOCALAPPDATA\nvim" "$envConfig\vim"
 
-Remove-Item -Recurse -Force "$env:LOCALAPPDATA\nvim"
+Remove-Item -Recurse -Force "$env:LOCALAPPDATA\nvim-data"
+New-Item -ItemType Directory "$env:LOCALAPPDATA\nvim-data"
 
-New-Item -ItemType Directory "$env:LOCALAPPDATA\nvim"
-
-symLinkCreate "$env:LOCALAPPDATA\nvim\init.vim" "$envConfig\vim\init.vim"
-
-nvim -c q
+nvim -e -s
 
 $files = Get-ChildItem -Name "$envConfig\autohotkey\*.ahk"
 foreach ($file in $files) {
