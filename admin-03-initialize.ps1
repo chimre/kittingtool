@@ -16,4 +16,5 @@ pip install --upgrade pynvim
 
 npm install --global yarn
 npm install --global neovim
+npm install --global tree-sitter-cli
 
