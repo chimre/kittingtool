@@ -22,6 +22,13 @@ $installedPath = "C:\local\boost_" + (choco list boost -lo).Split(" ")[3].Replac
 [System.Environment]::SetEnvironmentVariable("BOOST_HOME", "$installedPath", [System.EnvironmentVariableTarget]::User)
 refreshenv
 
+# font
+choco upgrade nerdfont-hack --install-if-not-installed --failonstderr -y
+choco upgrade nerd-fonts-3270 --install-if-not-installed --failonstderr -y
+choco upgrade font-hackgen --install-if-not-installed --failonstderr -y
+choco upgrade font-hackgen-nerd --install-if-not-installed --failonstderr -y
+refreshenv
+
 # runtime
 choco upgrade adoptopenjdkjre --install-if-not-installed --failonstderr -y
 refreshenv
