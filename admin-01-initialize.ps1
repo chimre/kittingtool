@@ -17,6 +17,7 @@ refreshenv
 choco upgrade visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional --passive" --install-if-not-installed --failonstderr -y
 refreshenv
 
+# Developer PowerShell for VS 2019で実行する
 powershell.exe -Command {New-Item -ItemType Directory -Force (Split-Path $profile -Parent); $installedPath = (Get-Command Microsoft.VisualStudio.DevShell.dll).Source; Write-Output "Import-Module ""$installedPath""" | Out-File $profile; Write-Output "Enter-VsDevShell d2d1568b -DevCmdArguments ""-arch=x64 -no_logo""" | Out-File $profile -Append}
 
 pwsh.exe -Command {New-Item -ItemType Directory -Force (Split-Path $profile -Parent); $installedPath = (Get-Command Microsoft.VisualStudio.DevShell.dll).Source; Write-Output "Import-Module ""$installedPath""" | Out-File $profile; Write-Output "Enter-VsDevShell d2d1568b -DevCmdArguments ""-arch=x64 -no_logo""" | Out-File $profile -Append}

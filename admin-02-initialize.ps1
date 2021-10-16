@@ -1,4 +1,3 @@
-# Developer PowerShell for VS 2019で実行する
 $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).path)\..\.."
 Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 
