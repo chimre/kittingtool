@@ -2,12 +2,17 @@ Param(
   [parameter(Position=0, Mandatory=$true)][String]$envHome
 )
 
-function symLinkCreate ($Destination, $Source) {
-  New-Item -ItemType SymbolicLink -Path $Destination -Value $Source
+function directoryCreate($Destination) {
+  if ((Split-Path -NoQualifier $Destination) -ne "") {
+    New-Item -ItemType Directory "$Destination"
+  }
 }
 
-function symLinkDelete ($Target) {
-  (Get-Item $Target).Delete()
+function symLinkCreate ($Destination, $Source) {
+  if ((Split-Path -NoQualifier $Destination) -ne "") {
+    (Get-Item $Destination).Delete()
+  }
+  New-Item -ItemType SymbolicLink -Path $Destination -Value $Source
 }
 
 $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).path)\..\.."
@@ -24,20 +29,10 @@ $envRepos = "$envHome.repos"
 
 refreshenv
 
-symLinkDelete "$envConfig\autohotkey"
-symLinkDelete "$envConfig\git"
-symLinkDelete "$envConfig\vim"
-
-# Remove-Item -Recurse -Force "$envCache"
-# Remove-Item -Recurse -Force "$envConfig"
-# Remove-Item -Recurse -Force "$envRepos"
-
-if ((Split-Path -NoQualifier $envHome) -ne "") {
-  New-Item -ItemType Directory "$envHome"
-}
-New-Item -ItemType Directory "$envCache"
-New-Item -ItemType Directory "$envConfig"
-New-Item -ItemType Directory "$envRepos"
+directoryCreate "$envHome"
+directoryCreate "$envCache"
+directoryCreate "$envConfig"
+directoryCreate "$envRepos"
 
 git config --global core.autoCRLF false
 
@@ -46,21 +41,18 @@ git clone "https://github.com/chimre/kittingtool.git" "$envRepos\github.com\chim
 
 symLinkCreate "$envConfig\autohotkey" "$envRepos\github.com\chimre\dotfiles\autohotkey"
 symLinkCreate "$envConfig\git" "$envRepos\github.com\chimre\dotfiles\git"
-symLinkCreate "$envConfig\vim" "$envRepos\github.com\chimre\dotfiles\vim"
+symLinkCreate "$envConfig\nvim" "$envRepos\github.com\chimre\dotfiles\nvim"
+symLinkCreate "$envConfig\nvim-data" "$envRepos\github.com\chimre\dotfiles\nvim-data"
 
-git config --global include.path "$envConfig/git/10-common.conf"
+git config --global include.path "$envConfig\git\common.conf"
 
-symLinkDelete "$env:LOCALAPPDATA\nvim"
-symLinkCreate "$env:LOCALAPPDATA\nvim" "$envConfig\vim"
-
-Remove-Item -Recurse -Force "$env:LOCALAPPDATA\nvim-data"
-New-Item -ItemType Directory "$env:LOCALAPPDATA\nvim-data"
+symLinkCreate "$env:LOCALAPPDATA\nvim" "$envConfig\nvim"
+symLinkCreate "$env:LOCALAPPDATA\nvim-data" "$envConfig\nvim-data"
 
 nvim -e -s
 
 $files = Get-ChildItem -Name "$envConfig\autohotkey\*.ahk"
 foreach ($file in $files) {
-  symLinkDelete "$Home\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\$file"
   symLinkCreate "$Home\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\$file" "$envConfig\autohotkey\$file"
 }
 
