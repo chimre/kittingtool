@@ -54,7 +54,10 @@ choco upgrade git --install-if-not-installed --failonstderr -y
 refreshenv
 
 # editor
-choco upgrade neovim --install-if-not-installed --failonstderr -y --pre
+choco upgrade neovim --install-if-not-installed --failonstderr -y
+refreshenv
+
+choco upgrade vscode --install-if-not-installed --failonstderr -y
 refreshenv
 
 choco upgrade winmerge --install-if-not-installed --failonstderr -y
