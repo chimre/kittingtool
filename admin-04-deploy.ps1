@@ -43,11 +43,17 @@ symLinkCreate "$envConfig\autohotkey" "$envRepos\github.com\chimre\dotfiles\auto
 symLinkCreate "$envConfig\git" "$envRepos\github.com\chimre\dotfiles\git"
 symLinkCreate "$envConfig\nvim" "$envRepos\github.com\chimre\dotfiles\nvim"
 symLinkCreate "$envConfig\nvim-data" "$envRepos\github.com\chimre\dotfiles\nvim-data"
+symLinkCreate "$envConfig\vscode" "$envRepos\github.com\chimre\dotfiles\vscode"
 
 git config --global include.path "$envConfig\git\common.conf"
 
 symLinkCreate "$env:LOCALAPPDATA\nvim" "$envConfig\nvim"
 symLinkCreate "$env:LOCALAPPDATA\nvim-data" "$envConfig\nvim-data"
+symLinkCreate "$env:APPDATA\Code\User\settings.json" "$envConfig\vscode\settings.json"
+
+foreach ($extension in Get-Content "$envConfig\vscode\extensions") {
+  code --install-extension $extension
+}
 
 nvim -e -s
 
